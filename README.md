@@ -1,4 +1,3 @@
-```css
 *{
 	box-sizing: border-box;
 }
@@ -322,8 +321,6 @@ a.nor{
 	border: 2px solid white;
 	z-index: 2;
 }
-```
-```html
 <!DOCTYPE html>
 <html>
 	<head>
@@ -424,4 +421,3 @@ you in 5 minutes.</pre></div>
 		</div>
 	</body>
 </html>
-```
