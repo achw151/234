@@ -1,0 +1,137 @@
+create database T;
+use T;
+CREATE TABLE S
+(学号 char(8) primary key,
+姓名 char(8) not null,
+性别 char(2),
+出生日期 date,
+所在院系 varchar(50),
+家庭住址 varchar(50)
+);
+create table C
+(课程编号 char(4) primary key,
+课程名称 varchar (50),
+先修课号 char(4),
+学分 int
+);
+create table SC
+(学号 char(8),
+课程编号 char(4),
+分数 int,
+constraint primary key(学号,课程编号)
+);
+insert into S
+	values('01001','张','男','2001-01-03','数学系','aabbb'),
+    ('01002','张','女','2000-01-03','数学系','aabbb'),
+    ('01003','李','男','2000-01-03','计算机','aabbb'),
+    ('01004','李','女','1999-01-03','经济系','aabbb'),
+    ('01005','李','男','1997-01-03','计算机','aabbb'),
+    ('01006','王','女','1998-01-03','计算机','aabbb'),
+    ('01007','王','女','1998-01-03','经济系','aabbb'),
+    ('01008','王','男','1997-01-03','计算机','aabbb'),
+    ('01009','王','女','2002-01-03','数学系','aabbb'),
+    ('01010','王','男','2002-01-03','经济系','aabbb');
+insert into C
+ values('101','近代历史','110',3),
+ ('102','c语言','102',3),
+ ('103','英语','106',3),
+ ('104','物理','103',2),
+ ('105','高数','105',2),
+ ('106','体育','107',2),
+ ('108','数据库','107',3),
+ ('107','java','103',3),
+ ('109','数据结构','106',3),
+ ('110','思修','102',2);
+ insert into SC
+ values('01001','104',70),
+ ('01001','101',83),
+ ('01001','102',92),
+ ('01002','108',62),
+ ('01003','106',78),
+ ('01003','109',56),
+ ('01005','110',87),
+ ('01007','101',90),
+ ('01008','108',66),
+ ('01010','101',88);
+ alter table C
+modify 课程名称 varchar(50) null;
+alter table SC
+modify 分数 decimal(5,2);
+alter table S
+ add 备注 varchar(50);
+select *
+ from S;
+ select *
+ from C;
+select *
+ from SC;
+select 学号,课程编号,分数+5 分数
+from SC;
+select 学号 sno,姓名 name,性别 sex,出生日期 date,所在院系 dept,家庭住址 addr
+from S;
+select distinct 学号
+from SC;
+select *
+from SC
+where 分数>80;
+select 学号,姓名
+from S
+where 所在院系='经济系';
+select *
+from SC
+where 分数>80 and 分数<90;
+select *
+from S
+where (select year(curdate()))-(-(-left(出生日期,4))) not between 22 and 25;
+select *
+from S
+where 姓名 like '刘%';
+select *
+from S
+where 学号 not in 
+(select distinct 学号
+ from SC);
+ select 学号,课程编号
+ from SC
+ where 分数 is null;
+ select *
+ from SC
+ where 分数 is not null;
+ select *
+ from S
+ where 所在院系='数学系' and ((select year(curdate()))-(-(-left(出生日期,4))))<20;
+ select *
+ from SC
+ where 课程编号 in('101','102');
+ select count(*)
+ from S;
+ select distinct 学号
+ from SC;
+ select avg(分数) avg
+ from SC
+ where 课程编号='101';
+ select sum(分数) sum
+ from SC
+ where 学号='01003';
+ select max(分数) max,min(分数) min
+ from SC
+ where 课程编号='101';
+ select 课程编号,count(*)
+ from SC
+ group by 课程编号;
+ select 学号,count(*) 选课数,avg(分数) avg,sum(分数) sum
+ from SC
+ group by 学号;
+ select 学号,count(*)
+ from SC
+ group by 学号 having count(*)>2;
+ select *
+ from S
+ order by (select year(curdate()))-(-(-left(出生日期,4))) desc;
+ select *,(select year(curdate()))-(-(-left(出生日期,4))) age
+ from S
+ order by 所在院系,(select year(curdate()))-(-(-left(出生日期,4))) desc;
+ select 学号,count(*)
+ from SC
+ group by 学号 having count(*)>2
+ order by count(*);
